@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+:focus{outline: none;}
+
+.btn-link
+{
+  color: black; 
+}
+
+body
+{
+  font-family: 'Roboto', sans-serif;
+  background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #574bbe 0%, #e5e5e5 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #3c2ae6 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+min-height: 100vh;
+}
+
+.login-form
+{
+   padding: 5%;
+   box-shadow: 0 4px 4px 1px rgba(0, 0, 0, 0.2), 0 4px 4px 0          rgba(0, 0, 0, 0.02);
+   float: none;
+   margin: 0 auto;
+   margin-top: 30vh;
+   border-radius: 5px;
+   text-align: center;
+  background-color: white;
+}
+.login-form .image-logo
+{
+  height: 200px;
+}
+
+.login-form input
+{
+  width: 100%;
+}
+div{
+  color: #3399FF;
+}
+.button{
+  color: #3399FF;
+}
+.login-form .input-form
+{
+  position:relative;
+}
+
+.effect-1, 
+.effect-2, 
+.effect-3{border: 0; padding: 7px 0; border-bottom: 1px solid #ccc;}
+
+.effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: #3399FF; transition: 0.4s;}
+.effect-1:focus ~ .focus-border{width: 100%; transition: 0.4s;}
