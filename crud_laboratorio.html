@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="scripts/crud_laboratorio.js"></script>
     <link rel="stylesheet" href="styles/crud_laboratorio.css">
 </head>
 
@@ -34,6 +35,7 @@
         </ul>
       </nav>
 
+      <form action="" method="POST" onsubmit="return validacionFormulario()">
       <div class="contenedor">
         
         <div><img src='./imgs/laboratorio.png'></div>
@@ -41,19 +43,19 @@
         <div class="contenedor2">
           <label>ID paciente:</label>
           <label>Tipo de análisis:</label>
-          <label>Fecha:</label>
+          <!--<label>Fecha:</label>-->
         </div>
 
         <div class="contenedor2">
-          <input type="text" class="campos">
-          <input type="text" class="campos">
-          <input type="text" class="campos">
+          <input type="text" class="campos" id="txt_id_paciente" onkeyup="return validacionNumero(this);">
+          <input type="text" class="campos" id="txt_tipo_analisis" placeholder="Solo letras" onkeyup="return validacionAnalisis(this);">
+          <!--<input type="date" class="campos" id="txt_fecha">-->
         </div>
 
         <div class="contenedor2">
           <input type="checkbox">
           <input type="checkbox">
-          <input type="checkbox">
+          <!--<input type="checkbox">-->
         </div>
 
       </div>
@@ -80,6 +82,7 @@
             <option value="value1">Seleccion</option>
           </select>
       </section>
+    </form>
 
 </body>
 

@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="scripts/crud_embarazo.js"></script>
     <link rel="stylesheet" href="styles/crud_embarazo.css">
 </head>
 
@@ -34,6 +35,7 @@
         </ul>
       </nav>
 
+      <form action="" method="POST" onsubmit="return validarFormularioEmbarazo()">
       <div class="contenedor">
         
         <div><img src='./imgs/embarazo.png'></div>
@@ -45,9 +47,9 @@
         </div>
 
         <div class="contenedor2">
-          <input type="text" class="campos">
-          <input type="text" class="campos">
-          <input type="text" class="campos">
+          <input type="text" class="campos" id="txt_nombre_madre" placeholder="Solo letras" pattern="[A-Z][a-z]{3}[a-z]+" onkeyup="return validacionNombre(this);">
+          <input type="date" class="campos" id="txt_fecha_parto">
+          <input type="text" class="campos" id="txt_nombre_partera" placeholder="Solo letras" pattern="[A-Z][a-z]{3}[a-z]+" onkeyup="return validacionNombre2(this);">
         </div>
 
         <div class="contenedor2">
@@ -61,7 +63,7 @@
       <section class="contenedor3">
         <div class="contenedor">
         <div class="contenedor2">
-          <button class="botones">Guardar</button>
+          <input class="botones" type="submit" value="Guardar">
           <button class="botones">Eliminar</button>
         </div>
 
@@ -83,6 +85,9 @@
           <textarea name="textarea" rows="10" cols="50" placeholder="Escribe aqui"></textarea>
         </div>
       </section>
+    </form>
+
+    <label id="alerta"></label>
 
 </body>
 
