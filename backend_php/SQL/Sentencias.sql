@@ -55,6 +55,20 @@ CREATE TABLE analisis(
 );
 
 
+DELIMITER //
+CREATE PROCEDURE sp_login(IN param_nombre_usuario VARCHAR(30), IN param_contrasenia VARCHAR(50)) 
+BEGIN
+    SELECT
+        nombre_usuario,
+        contrasenia
+    FROM
+        usuarios
+    WHERE
+        nombre_usuario=param_nombre_usuario AND contrasenia=MD5(param_contrasenia);
+END //
+DELIMITER ;
+
+
 # -------------------------------------------------------------------
 #                            Inserciones
 # -------------------------------------------------------------------
