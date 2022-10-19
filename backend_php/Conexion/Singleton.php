@@ -54,10 +54,7 @@ class Singleton
     {
 
         $sql = '
-        SELECT * FROM
-            usuarios
-        WHERE
-            nombre_usuario=? AND contrasenia=MD5(?)
+        CALL sp_login(?, ?)
         ';
 
         $query = Singleton::$conexion->prepare($sql);
