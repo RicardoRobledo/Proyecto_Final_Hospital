@@ -56,18 +56,21 @@ CREATE TABLE analisis(
 );
 
 
-DELIMITER //
-CREATE PROCEDURE sp_login(IN param_nombre_usuario VARCHAR(30), IN param_contrasenia VARCHAR(50)) 
+CREATE FUNCTION sp_login(IN param_nombre_usuario VARCHAR(30), IN param_contrasenia VARCHAR(50)) RETURNS VARCHAR AS $$
+DECLARE
+    nom_usu VARCHAR(30);
 BEGIN
     SELECT
-        nombre_usuario,
-        contrasenia
+        nombre_usuario
+    INTO
+        nom_usu
     FROM
         usuarios
     WHERE
         nombre_usuario=param_nombre_usuario AND contrasenia=MD5(param_contrasenia);
-END //
-DELIMITER ;
+    return nom_usu;
+END;
+$$ LANGUAGE plpgsql;
 
 
 # -------------------------------------------------------------------
