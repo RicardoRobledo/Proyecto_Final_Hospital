@@ -5,7 +5,7 @@
 
 CREATE TABLE usuarios(
 
-    id_usuario INT AUTO_INCREMENT NOT NULL,
+    id_usuario SERIAL NOT NULL,
 	nombre_usuario VARCHAR(30) NOT NULL,
 	contrasenia VARCHAR(50) NOT NULL,
 
@@ -14,15 +14,16 @@ CREATE TABLE usuarios(
 );
 
 
+CREATE TYPE sexo AS ENUM ('M', 'F');
 CREATE TABLE pacientes(
 
-    id_paciente INT AUTO_INCREMENT NOT NULL,
+    id_paciente SERIAL NOT NULL,
 	nombre VARCHAR(20) NOT NULL,
     apellido_paterno VARCHAR(20) NOT NULL,
     apellido_materno VARCHAR(20) NOT NULL,
     num_telefono VARCHAR(20) NOT NULL,
     edad INT NOT NULL,
-    sexo ENUM('F', 'M') NOT NULL,
+    sexo sexo,
     direccion VARCHAR(50) NOT NULL,
 
     PRIMARY KEY (id_paciente)    
@@ -32,7 +33,7 @@ CREATE TABLE pacientes(
 
 CREATE TABLE partos(
 
-    id_parto INT AUTO_INCREMENT NOT NULL,
+    id_parto SERIAL NOT NULL,
     id_madre INT NOT NULL,
     fecha_parto DATE NOT NULL,
     nombre_partera VARCHAR(20) NOT NULL,
@@ -45,7 +46,7 @@ CREATE TABLE partos(
 
 CREATE TABLE analisis(
 
-	id_analisis INT AUTO_INCREMENT NOT NULL,
+	id_analisis SERIAL NOT NULL,
     id_paciente INT NOT NULL,
     tipo_analisis VARCHAR(50) NOT NULL,
 
