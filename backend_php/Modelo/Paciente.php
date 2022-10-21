@@ -11,7 +11,7 @@ class Paciente
 	private $sexo;
 	private $direccion;
 	
-	function __construct($id_paciente=null, $nombre=null, $apellido_paterno=null, $apellido_materno=null, $num_telefono=null, $edad=null, $sexo=null, $direccion=null)
+	public function __construct($id_paciente=null, $nombre=null, $apellido_paterno=null, $apellido_materno=null, $num_telefono=null, $edad=null, $sexo=null, $direccion=null)
 	{
 		$this->id_paciente = $id_paciente;
 		$this->nombre = $nombre;
@@ -40,7 +40,7 @@ class Paciente
 	}
 
 	public function getApellidoPaterno(){
-		return $this->$apellido_paterno;
+		return $this->apellido_paterno;
 	}
 
 	public function setApellidoPaterno($apellido_paterno){
@@ -48,7 +48,7 @@ class Paciente
 	}
 
 	public function getApellidoMaterno(){
-		return $this->id_paciente;
+		return $this->apellido_materno;
 	}
 
 	public function setApellidoMaterno($apellido_materno){
@@ -79,13 +79,14 @@ class Paciente
 		$this->sexo = $sexo;
 	}
 
-	public function getIdPaciente(){
+    public function getDireccion(){
 		return $this->direccion;
 	}
 
-	public function setIdPaciente($direccion){
+	public function setDireccion($direccion){
 		$this->direccion = $direccion;
 	}
+
 }
 ?>
 
