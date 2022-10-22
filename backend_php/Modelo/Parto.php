@@ -15,7 +15,7 @@ class Parto
 	}
 
 	public function getIdMadre(){
-		return $this->id_madre
+		return $this->id_madre;
 	}
 
 	public function setIdMadre($id_madre){
