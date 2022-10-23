@@ -43,6 +43,8 @@ CREATE TABLE partos(
 
 );
 
+ALTER TABLE partos ADD CONSTRAINT madre_habitacion UNIQUE(id_madre);
+
 
 CREATE TABLE analisis(
 
@@ -86,7 +88,7 @@ INSERT INTO pacientes(
 	edad,
 	sexo,
 	direccion
-	) VALUES(
+) VALUES(
 	'ana',
 	'hernandez',
 	'pereyra',
@@ -99,16 +101,16 @@ INSERT INTO pacientes(
 INSERT INTO usuarios(
 	nombre_usuario,
 	contrasenia
-	) VALUES(
+) VALUES(
 	'toffy',
-	MD5('1234'
+	MD5('1234')
 );
 
 INSERT INTO partos(
 	id_madre,
 	fecha_parto,
 	nombre_partera
-	) VALUES(
+) VALUES(
 	1,
 	'199-10-09',
 	'paula'
@@ -117,7 +119,7 @@ INSERT INTO partos(
 INSERT INTO analisis(
 	id_paciente,
 	tipo_analisis
-	) VALUES(
+) VALUES(
 	1,
 	'glucosa'
 );
