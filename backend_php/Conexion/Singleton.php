@@ -25,11 +25,9 @@ class Singleton
 
     }
 
-
-	public static function obtenerConexion()
+    public static function obtenerConexion()
     {
-
-		if(Singleton::$conexion==null)
+        if(Singleton::$conexion==null)
 	    {
             new Singleton();
         }
@@ -40,9 +38,6 @@ class Singleton
 		
     }
 
-    # ----------------------------------------------------------------
-    #                         Cerrar conexion
-    # ----------------------------------------------------------------
     public static function cerrarConexion()
     {
         Singleton::$conexion = null;
@@ -146,7 +141,7 @@ class Singleton
     }
 
 
-    public static function generarConsulta($paciente)
+    public static function generarConsultaPaciente($paciente)
     {
 
         $sql = 'SELECT * FROM pacientes WHERE ';
@@ -188,7 +183,7 @@ class Singleton
     }
 
 
-    public static function consultar($sql, $paciente)
+    public static function consultarPaciente($sql, $paciente)
     {
 
         $cont = 1;
@@ -243,15 +238,11 @@ class Singleton
     public static function consultaPaciente($paciente)
     {
 
-        $sql = Singleton::generarConsulta($paciente);
-        $query = Singleton::consultar($sql, $paciente);
-        $resultado = $query->execute();
+        $sql = Singleton::generarConsultaPaciente($paciente);
+        $query = Singleton::consultarPaciente($sql, $paciente);
+        $query->execute();
 
-        #foreach($query->fetch(PDO::FETCH_ASSOC) as $key => $value) {
-        #    print(var_dump($key, $value).'<br>');
-        #}
-
-        return $resultado;
+        return $query->fetchAll();
 
     }
 
@@ -260,11 +251,145 @@ class Singleton
     #                             Parto
     # ----------------------------------------------------------------
 
+
+    public static function altaParto($parto)
+    {
+
+        $sql = 'INSERT INTO partos(id_madre, fecha_parto, nombre_partera) VALUES (?,?,?)';
+
+        $query = Singleton::$conexion->prepare($sql);
+        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $query->bindValue(1, $parto->getIdMadre(), PDO::PARAM_INT);
+        $query->bindValue(2, $parto->getFechaParto(), PDO::PARAM_STR);
+        $query->bindValue(3, $parto->getNombrePartera(), PDO::PARAM_STR);
+        $resultado = $query->execute();
+
+        if($resultado){
+            return true; 
+        }else{
+            return false;
+        }
+
+    }
+
+
+    public static function bajaParto($parto)
+    {
+
+        $sql = 'DELETE FROM partos WHERE id_parto=?';
+
+        $query = Singleton::$conexion->prepare($sql);
+        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $query->bindValue(1, $parto->getIdParto(), PDO::PARAM_INT);
+        $resultado = $query->execute();
+
+        if($resultado){
+            return true; 
+        }else{
+            return false;
+        }
+
+    }
+
+
+    public static function cambioParto($parto)
+    {
+
+        $sql = 'UPDATE partos SET id_madre=?, fecha_parto=?, nombre_partera=? WHERE id_parto=?';
+
+        print($parto->getFechaParto());
+        $query = Singleton::$conexion->prepare($sql);
+        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $query->bindValue(1, $parto->getIdMadre(), PDO::PARAM_INT);
+        $query->bindValue(2, $parto->getFechaParto(), PDO::PARAM_STR);
+        $query->bindValue(3, $parto->getNombrePartera(), PDO::PARAM_STR);
+        $query->bindValue(4, $parto->getIdParto(), PDO::PARAM_INT);
+        $resultado = $query->execute();
+
+        if($resultado){
+            return true; 
+        }else{
+            return false;
+        }
+
+    }
+
+
+    public static function generarConsultaParto($parto)
+    {
+
+        $sql = 'SELECT * FROM partos WHERE ';
+
+        if($parto->getIdParto()!=null){
+            $sql = $sql . 'id_parto=? AND ';
+        }
+
+        if($parto->getIdMadre()!=null){
+            $sql = $sql . 'id_madre=? AND ';
+        }
+
+        if($parto->getFechaParto()!=null){
+            $sql = $sql . 'fecha_parto=? AND ';
+        }
+
+        if($parto->getNombrePartera()!=null){
+            $sql = $sql . 'nombre_partera=? AND ';
+        }
+
+        return $sql;
+
+    }
+
+
+    public static function consultarParto($sql, $parto)
+    {
+
+        $cont = 1;
+        $query = Singleton::$conexion->prepare(substr($sql, 0, strlen($sql)-5));
+
+        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+        if($parto->getIdParto()!=null){
+            $query->bindValue($cont, $parto->getIdParto(), PDO::PARAM_INT);
+            $cont++;
+        }
+
+        if($parto->getIdMadre()!=null){
+            $query->bindValue($cont, $parto->getIdMadre(), PDO::PARAM_INT);
+            $cont++;
+        }
+
+        if($parto->getFechaParto()!=null){
+            $query->bindValue($cont, $parto->getFechaParto(), PDO::PARAM_STR);
+            $cont++;
+        }
+
+        if($parto->getNombrePartera()!=null){
+            $query->bindValue($cont, $parto->getNombrePartera(), PDO::PARAM_STR);
+            $cont++;
+        }
+
+        return $query;
+
+    }
+
+
+    public static function consultaParto($parto)
+    {
+
+        $sql = Singleton::generarConsultaParto($parto);
+        $query = Singleton::consultarParto($sql, $parto);
+        $query->execute();
+
+        return $query->fetchAll();
+
+    }
+
+
     # ----------------------------------------------------------------
     #                             Analisis
     # ----------------------------------------------------------------
 
 }
 
-Singleton::obtenerConexion();
 ?>
