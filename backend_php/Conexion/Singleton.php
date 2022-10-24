@@ -390,6 +390,128 @@ class Singleton
     #                             Analisis
     # ----------------------------------------------------------------
 
+
+    public static function altaAnalisis($analisis)
+    {
+
+        $sql = 'INSERT INTO analisis(id_paciente, tipo_analisis) VALUES (?,?)';
+
+        $query = Singleton::$conexion->prepare($sql);
+        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $query->bindValue(1, $analisis->getIdPaciente(), PDO::PARAM_INT);
+        $query->bindValue(2, $analisis->getTipoAnalisis(), PDO::PARAM_STR);
+        $resultado = $query->execute();
+
+        if($resultado){
+            return true; 
+        }else{
+            return false;
+        }
+
+    }
+
+
+    public static function bajaAnalisis($analisis)
+    {
+
+        $sql = 'DELETE FROM analisis WHERE id_analisis=?';
+
+        $query = Singleton::$conexion->prepare($sql);
+        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $query->bindValue(1, $analisis->getIdAnalisis(), PDO::PARAM_INT);
+        $resultado = $query->execute();
+
+        if($resultado){
+            return true; 
+        }else{
+            return false;
+        }
+
+    }
+
+
+    public static function cambioAnalisis($analisis)
+    {
+
+        $sql = 'UPDATE analisis SET id_paciente=?, tipo_analisis=? WHERE id_analisis=?';
+
+        $query = Singleton::$conexion->prepare($sql);
+        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $query->bindValue(1, $analisis->getIdPaciente(), PDO::PARAM_INT);
+        $query->bindValue(2, $analisis->getTipoAnalisis(), PDO::PARAM_STR);
+        $query->bindValue(3, $analisis->getIdAnalisis(), PDO::PARAM_INT);
+        $resultado = $query->execute();
+
+        if($resultado){
+            return true; 
+        }else{
+            return false;
+        }
+
+    }
+
+
+    public static function generarConsultaAnalisis($analisis)
+    {
+
+        $sql = 'SELECT * FROM analisis WHERE ';
+
+        if($analisis->getIdAnalisis()!=null){
+            $sql = $sql . 'id_analisis=? AND ';
+        }
+
+        if($analisis->getIdPaciente()!=null){
+            $sql = $sql . 'id_paciente=? AND ';
+        }
+
+        if($analisis->getTipoAnalisis()!=null){
+            $sql = $sql . 'tipo_analisis=? AND ';
+        }
+
+        return $sql;
+
+    }
+
+
+    public static function consultarAnalisis($sql, $analisis)
+    {
+
+        $cont = 1;
+        $query = Singleton::$conexion->prepare(substr($sql, 0, strlen($sql)-5));
+
+        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+        if($analisis->getIdAnalisis()!=null){
+            $query->bindValue($cont, $analisis->getIdAnalisis(), PDO::PARAM_INT);
+            $cont++;
+        }
+
+        if($analisis->getIdPaciente()!=null){
+            $query->bindValue($cont, $analisis->getIdPaciente(), PDO::PARAM_INT);
+            $cont++;
+        }
+
+        if($analisis->getTipoAnalisis()!=null){
+            $query->bindValue($cont, $analisis->getTipoAnalisis(), PDO::PARAM_STR);
+        }
+
+        return $query;
+
+    }
+
+
+    public static function consultaAnalisis($analisis)
+    {
+
+        $sql = Singleton::generarConsultaAnalisis($analisis);
+        $query = Singleton::consultarAnalisis($sql, $analisis);
+        $query->execute();
+
+        return $query->fetchAll();
+
+    }
+
+
 }
 
 ?>
