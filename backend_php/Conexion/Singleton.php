@@ -25,8 +25,10 @@ class Singleton
 
     }
 
+
     public static function obtenerConexion()
     {
+
         if(Singleton::$conexion==null)
 	    {
             new Singleton();
@@ -37,6 +39,7 @@ class Singleton
         return Singleton::$conexion;
 		
     }
+
 
     public static function cerrarConexion()
     {
@@ -56,6 +59,7 @@ class Singleton
     	Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     	$query->bindParam(1, $nombre_usuario, PDO::PARAM_STR);
     	$query->bindParam(2, $contrasenia, PDO::PARAM_STR);
+
     	$query->execute();
 
         //Si la consulta se realiza con exito
@@ -73,70 +77,91 @@ class Singleton
     # ----------------------------------------------------------------
     public static function altaPaciente($paciente)
     {
+        try{
 
-        $sql = 'INSERT INTO pacientes(nombre, apellido_paterno, apellido_materno, num_telefono, edad, sexo, direccion) VALUES (?,?,?,?,?,?,?)';
+            Singleton::$conexion->beginTransaction();
 
-        $query = Singleton::$conexion->prepare($sql);
-        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $query->bindValue(1, $paciente->getNombre(), PDO::PARAM_STR);
-        $query->bindValue(2, $paciente->getApellidoPaterno(), PDO::PARAM_STR);
-        $query->bindValue(3, $paciente->getApellidoMaterno(), PDO::PARAM_STR);
-        $query->bindValue(4, $paciente->getNumTelefono(), PDO::PARAM_STR);
-        $query->bindValue(5, $paciente->getEdad(), PDO::PARAM_INT);
-        $query->bindValue(6, $paciente->getSexo(), PDO::PARAM_STR);
-        $query->bindValue(7, $paciente->getDireccion(), PDO::PARAM_STR);
-        $resultado = $query->execute();
+            $sql = 'INSERT INTO pacientes(nombre, apellido_paterno, apellido_materno, num_telefono, edad, sexo, direccion) VALUES (?,?,?,?,?,?,?)';
 
-        if($resultado){
-            return true; 
-        }else{
-            return false;
+            $query = Singleton::$conexion->prepare($sql);
+            Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $query->bindValue(1, $paciente->getNombre(), PDO::PARAM_STR);
+            $query->bindValue(2, $paciente->getApellidoPaterno(), PDO::PARAM_STR);
+            $query->bindValue(3, $paciente->getApellidoMaterno(), PDO::PARAM_STR);
+            $query->bindValue(4, $paciente->getNumTelefono(), PDO::PARAM_STR);
+            $query->bindValue(5, $paciente->getEdad(), PDO::PARAM_INT);
+            $query->bindValue(6, $paciente->getSexo(), PDO::PARAM_STR);
+            $query->bindValue(7, $paciente->getDireccion(), PDO::PARAM_STR);
+            $query->execute();
+
+            $resultado = Singleton::$conexion->commit();
+
+            return true;
+
+        }catch(Exception $e){
+            Singleton::$conexion->rollBack();
         }
+
+        return false;
 
     }
 
 
     public static function bajaPaciente($paciente)
     {
+        try{
 
-        $sql = 'DELETE FROM pacientes WHERE id_paciente=?';
+            Singleton::$conexion->beginTransaction();
 
-        $query = Singleton::$conexion->prepare($sql);
-        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $query->bindValue(1, $paciente->getIdPaciente(), PDO::PARAM_INT);
-        $resultado = $query->execute();
+            $sql = 'DELETE FROM pacientes WHERE id_paciente=?';
 
-        if($resultado){
-            return true; 
-        }else{
-            return false;
+            $query = Singleton::$conexion->prepare($sql);
+            Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $query->bindValue(1, $paciente->getIdPaciente(), PDO::PARAM_INT);
+            $query->execute();
+
+            $resultado = Singleton::$conexion->commit();
+
+            return true;
+
+        }catch(Exception $e){
+            Singleton::$conexion->rollBack();
         }
+
+        return false;
 
     }
 
 
     public static function cambioPaciente($paciente)
     {
+        try{
 
-        $sql = 'UPDATE pacientes SET nombre=?, apellido_paterno=?, apellido_materno=?, num_telefono=?, edad=?, sexo=?, direccion=? WHERE id_paciente=?';
+            Singleton::$conexion->beginTransaction();
 
-        $query = Singleton::$conexion->prepare($sql);
-        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $query->bindValue(1, $paciente->getNombre(), PDO::PARAM_STR);
-        $query->bindValue(2, $paciente->getApellidoPaterno(), PDO::PARAM_STR);
-        $query->bindValue(3, $paciente->getApellidoMaterno(), PDO::PARAM_STR);
-        $query->bindValue(4, $paciente->getNumTelefono(), PDO::PARAM_STR);
-        $query->bindValue(5, $paciente->getEdad(), PDO::PARAM_INT);
-        $query->bindValue(6, $paciente->getSexo(), PDO::PARAM_STR);
-        $query->bindValue(7, $paciente->getDireccion(), PDO::PARAM_STR);
-        $query->bindValue(8, $paciente->getIdPaciente(), PDO::PARAM_INT);
-        $resultado = $query->execute();
+            $sql = 'UPDATE pacientes SET nombre=?, apellido_paterno=?, apellido_materno=?, num_telefono=?, edad=?, sexo=?, direccion=? WHERE id_paciente=?';
 
-        if($resultado){
-            return true; 
-        }else{
-            return false;
+            $query = Singleton::$conexion->prepare($sql);
+            Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $query->bindValue(1, $paciente->getNombre(), PDO::PARAM_STR);
+            $query->bindValue(2, $paciente->getApellidoPaterno(), PDO::PARAM_STR);
+            $query->bindValue(3, $paciente->getApellidoMaterno(), PDO::PARAM_STR);
+            $query->bindValue(4, $paciente->getNumTelefono(), PDO::PARAM_STR);
+            $query->bindValue(5, $paciente->getEdad(), PDO::PARAM_INT);
+            $query->bindValue(6, $paciente->getSexo(), PDO::PARAM_STR);
+            $query->bindValue(7, $paciente->getDireccion(), PDO::PARAM_STR);
+            $query->bindValue(8, $paciente->getIdPaciente(), PDO::PARAM_INT);
+            $query->execute();
+
+            $resultado = Singleton::$conexion->commit();
+
+            return true;
+
+        }catch(Exception $e){
+            Singleton::$conexion->rollBack();
         }
+
+        return false;
 
     }
 
@@ -254,63 +279,84 @@ class Singleton
 
     public static function altaParto($parto)
     {
+        try{
 
-        $sql = 'INSERT INTO partos(id_madre, fecha_parto, nombre_partera) VALUES (?,?,?)';
+            Singleton::$conexion->beginTransaction();
 
-        $query = Singleton::$conexion->prepare($sql);
-        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $query->bindValue(1, $parto->getIdMadre(), PDO::PARAM_INT);
-        $query->bindValue(2, $parto->getFechaParto(), PDO::PARAM_STR);
-        $query->bindValue(3, $parto->getNombrePartera(), PDO::PARAM_STR);
-        $resultado = $query->execute();
+            $sql = 'INSERT INTO partos(id_madre, fecha_parto, nombre_partera) VALUES (?,?,?)';
 
-        if($resultado){
-            return true; 
-        }else{
-            return false;
+            $query = Singleton::$conexion->prepare($sql);
+            Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $query->bindValue(1, $parto->getIdMadre(), PDO::PARAM_INT);
+            $query->bindValue(2, $parto->getFechaParto(), PDO::PARAM_STR);
+            $query->bindValue(3, $parto->getNombrePartera(), PDO::PARAM_STR);
+            $query->execute();
+
+            $resultado = Singleton::$conexion->commit();
+
+            return true;
+
+        }catch(Exception $e){
+            Singleton::$conexion->rollBack();
         }
+
+        return false;
 
     }
 
 
     public static function bajaParto($parto)
     {
+        try{
 
-        $sql = 'DELETE FROM partos WHERE id_parto=?';
+            Singleton::$conexion->beginTransaction();
 
-        $query = Singleton::$conexion->prepare($sql);
-        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $query->bindValue(1, $parto->getIdParto(), PDO::PARAM_INT);
-        $resultado = $query->execute();
+            $sql = 'DELETE FROM partos WHERE id_parto=?';
 
-        if($resultado){
-            return true; 
-        }else{
-            return false;
+            $query = Singleton::$conexion->prepare($sql);
+            Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $query->bindValue(1, $parto->getIdParto(), PDO::PARAM_INT);
+            $query->execute();
+
+            $resultado = Singleton::$conexion->commit();
+
+            return true;
+
+        }catch(Exception $e){
+            Singleton::$conexion->rollBack();
         }
+
+        return false;
 
     }
 
 
     public static function cambioParto($parto)
     {
+        try{
 
-        $sql = 'UPDATE partos SET id_madre=?, fecha_parto=?, nombre_partera=? WHERE id_parto=?';
+            Singleton::$conexion->beginTransaction();
 
-        print($parto->getFechaParto());
-        $query = Singleton::$conexion->prepare($sql);
-        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $query->bindValue(1, $parto->getIdMadre(), PDO::PARAM_INT);
-        $query->bindValue(2, $parto->getFechaParto(), PDO::PARAM_STR);
-        $query->bindValue(3, $parto->getNombrePartera(), PDO::PARAM_STR);
-        $query->bindValue(4, $parto->getIdParto(), PDO::PARAM_INT);
-        $resultado = $query->execute();
+            $sql = 'UPDATE partos SET id_madre=?, fecha_parto=?, nombre_partera=? WHERE id_parto=?';
 
-        if($resultado){
-            return true; 
-        }else{
-            return false;
+            print($parto->getFechaParto());
+            $query = Singleton::$conexion->prepare($sql);
+            Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $query->bindValue(1, $parto->getIdMadre(), PDO::PARAM_INT);
+            $query->bindValue(2, $parto->getFechaParto(), PDO::PARAM_STR);
+            $query->bindValue(3, $parto->getNombrePartera(), PDO::PARAM_STR);
+            $query->bindValue(4, $parto->getIdParto(), PDO::PARAM_INT);
+            $query->execute();
+
+            $resultado = Singleton::$conexion->commit();
+
+            return true;
+
+        }catch(Exception $e){
+            Singleton::$conexion->rollBack();
         }
+
+        return false;
 
     }
 
@@ -393,39 +439,53 @@ class Singleton
 
     public static function altaAnalisis($analisis)
     {
+        try{
 
-        $sql = 'INSERT INTO analisis(id_paciente, tipo_analisis) VALUES (?,?)';
+            Singleton::$conexion->beginTransaction();
 
-        $query = Singleton::$conexion->prepare($sql);
-        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $query->bindValue(1, $analisis->getIdPaciente(), PDO::PARAM_INT);
-        $query->bindValue(2, $analisis->getTipoAnalisis(), PDO::PARAM_STR);
-        $resultado = $query->execute();
+            $sql = 'INSERT INTO analisis(id_paciente, tipo_analisis) VALUES (?,?)';
 
-        if($resultado){
-            return true; 
-        }else{
-            return false;
+            $query = Singleton::$conexion->prepare($sql);
+            Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $query->bindValue(1, $analisis->getIdPaciente(), PDO::PARAM_INT);
+            $query->bindValue(2, $analisis->getTipoAnalisis(), PDO::PARAM_STR);
+            $query->execute();
+
+            $resultado = Singleton::$conexion->commit();
+
+            return true;
+
+        }catch(Exception $e){
+            Singleton::$conexion->rollBack();
         }
+
+        return false)
 
     }
 
 
     public static function bajaAnalisis($analisis)
     {
+        try{
 
-        $sql = 'DELETE FROM analisis WHERE id_analisis=?';
+            Singleton::$conexion->beginTransaction();
 
-        $query = Singleton::$conexion->prepare($sql);
-        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $query->bindValue(1, $analisis->getIdAnalisis(), PDO::PARAM_INT);
-        $resultado = $query->execute();
+            $sql = 'DELETE FROM analisis WHERE id_analisis=?';
 
-        if($resultado){
-            return true; 
-        }else{
-            return false;
+            $query = Singleton::$conexion->prepare($sql);
+            Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $query->bindValue(1, $analisis->getIdAnalisis(), PDO::PARAM_INT);
+            $query->execute();
+
+            $resultado = Singleton::$conexion->commit();
+
+            return true;
+
+        }catch(Exception $e){
+            Singleton::$conexion->rollBack();
         }
+
+        return false;
 
     }
 
@@ -433,21 +493,29 @@ class Singleton
     public static function cambioAnalisis($analisis)
     {
 
-        $sql = 'UPDATE analisis SET id_paciente=?, tipo_analisis=? WHERE id_analisis=?';
+        try{
 
-        $query = Singleton::$conexion->prepare($sql);
-        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $query->bindValue(1, $analisis->getIdPaciente(), PDO::PARAM_INT);
-        $query->bindValue(2, $analisis->getTipoAnalisis(), PDO::PARAM_STR);
-        $query->bindValue(3, $analisis->getIdAnalisis(), PDO::PARAM_INT);
-        $resultado = $query->execute();
+            Singleton::$conexion->beginTransaction();
 
-        if($resultado){
+            $sql = 'UPDATE analisis SET id_paciente=?, tipo_analisis=? WHERE id_analisis=?';
+
+            $query = Singleton::$conexion->prepare($sql);
+            Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $query->bindValue(1, $analisis->getIdPaciente(), PDO::PARAM_INT);
+            $query->bindValue(2, $analisis->getTipoAnalisis(), PDO::PARAM_STR);
+            $query->bindValue(3, $analisis->getIdAnalisis(), PDO::PARAM_INT);
+            $query->execute();
+
+            $resultado = Singleton::$conexion->commit();
+
             return true; 
-        }else{
-            return false;
+
+        }catch(Exception $e){
+            Singleton::$conexion->rollBack();
         }
 
+        return false;
+    
     }
 
 
