@@ -29,7 +29,7 @@ class Singleton{
             new Singleton();
         }
 
-        print('Conexion obtenida');
+       // print('Conexion obtenida');
 
         return Singleton::$conexion;
 		
@@ -45,8 +45,7 @@ class Singleton{
     # ----------------------------------------------------------------
     #                             Usuario
     # ----------------------------------------------------------------
-    public static function iniciarSesion($nombre_usuario, $contrasenia)
-    {
+    public static function iniciarSesion($nombre_usuario, $contrasenia){
 
         $sql = 'SELECT sp_login(?,?)';
 
@@ -70,8 +69,7 @@ class Singleton{
     # ----------------------------------------------------------------
     #                             Paciente
     # ----------------------------------------------------------------
-    public static function altaPaciente($paciente)
-    {
+    public static function altaPaciente($paciente){
         try{
 
             Singleton::$conexion->beginTransaction();
@@ -254,9 +252,20 @@ class Singleton{
 
     }
 
+    public static function consultaPacientes(){
 
-    public static function consultaPaciente($paciente)
-    {
+        $sql = 'SELECT * FROM pacientes';
+
+        $query = Singleton::$conexion->prepare($sql);
+    	Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    	$query->execute();
+
+        //Si la consulta se realiza con exito
+    	return $query;
+
+
+    }
+    public static function consultaPaciente($paciente){
 
         $sql = Singleton::generarConsultaPaciente($paciente);
         $query = Singleton::consultarPaciente($sql, $paciente);
