@@ -18,10 +18,19 @@
             $res =Singleton::altaPaciente($paciente);
             return $res;
         }
+        public function cambiarPaciente($paciente){
+            $res =Singleton::cambioPaciente($paciente);
+            return $res;
+        }
+        
 
         //===================== CONSULTAS ==========================
         public function mostrarPacientes(){
             $res =Singleton::consultaPacientes();
+            return $res;
+        }
+        public function mostrarPacienteFiltro($paciente){
+            $res =Singleton::consultaPaciente($paciente);
             return $res;
         }
         //===================== BAJAS ==========================
@@ -42,5 +51,9 @@
             return $res;
         }
         //===================== Cambios ==========================
+        public function actualizarPaciente($paciente){
+            $res =Singleton::cambioPaciente($paciente);
+            return $res;
+        }
     }//ALUMNO DAO
 ?>

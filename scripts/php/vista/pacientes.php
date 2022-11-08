@@ -58,13 +58,13 @@
   <!--Fin Altas-->
   <div class="container mt-5">
     <h2>Busqueda pacientes</h2>
-    <form class="d-flex">
-      <input class="form-control me-2" pattern="[0-9]* type=" text" placeholder="id paciente">
-      <input class="form-control me-2" pattern="([A-Z|a-z])* type=" text" placeholder="tipo analisís">
-      <input class="form-control me-2" type="date" placeholder="fecha">
-      <button class="btn btn-primary" type="button">Buscar</button>
-    </form>
-    <table class="table table-striped mt-4 my-4">
+    <div class="d-flex" >
+        <input  name="nombre" type="text" pattern="[A-Z][a-z]*" class="form-control is-valid" id="inputText" placeholder="Nombre">
+        <button class="btn btn-primary" type="submit" href="tabla2.php" onclick="" >Buscar</button>
+    </div>
+
+    <div class="container">
+      <table class="table table-striped mt-4 my-4">
       <thead>
         <h2 class="text-center">Pacientes</h2>
         <tr>
@@ -81,83 +81,16 @@
       </thead>
       <tbody>
         <tr>
-
           <?php
-          include('../controlador/paciente_dao.php');
-          $aDAO = new PacienteDAO();
-          Singleton::obtenerConexion();
-          $resultado = $aDAO->mostrarPacientes();
-          //var_dump($resultado);
-
-          if ($resultado->rowCount()) {
-            //echo("Hay registros");
-            while ($result = $resultado->fetch(PDO::FETCH_ASSOC)) {
-              printf("<tr>");
-              printf("<td>" . $result["id_paciente"] . "</td>");
-              printf("<td>" . $result["nombre"] . "</td>");
-              printf("<td>" . $result["apellido_paterno"] . "</td>");
-              printf("<td>" . $result["apellido_materno"] . "</td>");
-              printf("<td>" . $result["num_telefono"] . "</td>");
-              printf("<td>" . $result["edad"] . "</td>");
-              printf("<td>" . $result["sexo"] . "</td>");
-              printf("<td>" . $result["direccion"] . "</td>");
-              printf("<td>
-                <a  href='#modal_modificar_pacientes' data-bs-toggle='modal' type='button' class='btn btn-outline-success'>Modificar</a>
-                <a href='../controlador/procesar_bajas.php?id_paciente=%s'class='btn btn-outline-danger'>Eliminar</a>
-                </td>", $result["id_paciente"]);
-              printf("</tr>");
-            }
-          } else {
-            echo ("No hay registros");
-          }
-
+          include('tabla.php');
           ?>
         </tr>
       </tbody>
     </table>
-  </div>
-
-
-  <div class="modal" tabindex="-1" id="modal_modificar_pacientes">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modificar Paciente</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form class="row g-3 mx-5 mt-4 was-validated" action="../controlador/procesaraltas.php" method="GET">
-            <h2 class="text-center">Paciente</h2>
-        
-              <input required name="nombre" type="text" pattern="[A-Z][a-z]*" class="form-control is-valid" id="inputText" placeholder="Nombre">
-            
-            
-              <input required name="Ap_P" type="text" pattern="[A-Z][a-z]*" class="form-control is-valid" id="inputText2" placeholder="Apellido paterno">
-           
-            
-              <input required name="Ap_M" type="text" pattern="[a-zA-Z]*" class="form-control is-valid" id="inputText3" placeholder="Apellido materno">
-            
-            
-              <input required name="tel" type="tel" pattern="[0-9]{10}" class="form-control is-valid" placeholder="numero telefonico" id="inputTel">
-            
-            
-              <input required name="edad" min="0" type="number" class="form-control is-valid" id="inputAge" placeholder="0">
-            
-            
-              <input required name="sexo" ype="text" class="form-control is-valid" id="inputSexo" placeholder="M/F">
-            
-            
-              <input required name="direccion" type="text" class="form-control is-valid" id="inputAddress" placeholder="Calle, colonia y numero">
-           
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
-          <a href="" type="submit" class="btn btn-success">Guardar cambios</a>
-        </div>
-      </div>
     </div>
+    
   </div>
+
 
 </body>
 

@@ -159,41 +159,40 @@ class Singleton{
     }
 
 
-    public static function generarConsultaPaciente($paciente)
-    {
+    public static function generarConsultaPaciente($paciente){
 
         $sql = 'SELECT * FROM pacientes WHERE ';
 
         if($paciente->getIdPaciente()!=null){
-            $sql = $sql . 'id_paciente=? AND ';
+            $sql = $sql . 'id_paciente LIKE %?% OR ';
         }
 
         if($paciente->getNombre()!=null){
-            $sql = $sql . 'nombre=? AND ';
+            $sql = $sql . 'nombre LIKE %?% OR ';
         }
 
         if($paciente->getApellidoPaterno()!=null){
-            $sql = $sql . 'apellido_paterno=? AND ';
+            $sql = $sql . 'apellido_paterno LIKE %?% OR ';
         }
 
         if($paciente->getApellidoMaterno()!=null){
-            $sql = $sql . 'apellido_materno=? AND ';
+            $sql = $sql . 'apellido_materno LIKE %?% OR ';
         }
 
         if($paciente->getNumTelefono()!=null){
-            $sql = $sql . 'num_telefono=? AND ';
+            $sql = $sql . 'num_telefono LIKE %?% OR ';
         }
 
         if($paciente->getEdad()!=null){
-            $sql = $sql . 'edad=? AND ';
+            $sql = $sql . 'edad LIKE %?% OR ';
         }
 
         if($paciente->getSexo()!=null){
-            $sql = $sql . 'sexo=? AND ';
+            $sql = $sql . 'sexo LIKE %?% OR ';
         }
 
         if($paciente->getDireccion()!=null){
-            $sql = $sql . 'direccion=? AND ';
+            $sql = $sql . 'direccion LIKE %?%';
         }
 
         return $sql;
@@ -201,8 +200,7 @@ class Singleton{
     }
 
 
-    public static function consultarPaciente($sql, $paciente)
-    {
+    public static function consultarPaciente($sql, $paciente){
 
         $cont = 1;
         $query = Singleton::$conexion->prepare(substr($sql, 0, strlen($sql)-5));
@@ -266,12 +264,15 @@ class Singleton{
 
     }
     public static function consultaPaciente($paciente){
-
+        //var_dump($paciente);
         $sql = Singleton::generarConsultaPaciente($paciente);
+        //readonly
+        var_dump($sql);
         $query = Singleton::consultarPaciente($sql, $paciente);
+        //var_dump($query."Soy la consulta");
         $query->execute();
 
-        return $query->fetchAll();
+        return $query;//->fetchAll();
 
     }
 

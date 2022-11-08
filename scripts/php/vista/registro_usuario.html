@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet'
+        type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="./registro_usuario.css">
+    <script type="text/javascript" src="scripts/validacion_registro.js"></script>
+    <title>Registro</title>
+</head>
+
+<body>
+    <div class="testbox">
+        <h1>Registro</h1>
+
+        <form action=""  method="POST" onsubmit="return envioFormulario()">
+
+            <hr>
+            <label id="icon" for="name"><i class="icon-envelope"></i></label>
+            <input type="text" name="name" id="caja_usuario" placeholder="Usuario" required />
+            <label id="icon" for="name"><i class="icon-user"></i></label>
+            <input type="text" name="name" id="caja_nombre" placeholder="Nombre" required />
+            <label id="icon" for="name"><i class="icon-shield"></i></label>
+            <input type="password" name="name" id="caja_contraseña" placeholder="Contraseña" required />
+
+            <p>Por favor cliclea Registrarse para que seas agregado</p>
+            <input type="submit" value="Registrar">
+            
+        </form>
+    </div>
+</body>
+
+</html>

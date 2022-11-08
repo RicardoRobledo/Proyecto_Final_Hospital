@@ -1,7 +1,7 @@
 <?php
     include('paciente_dao.php');
     $paciente = new Paciente(
-        null,
+        $_POST['id'],
         $_POST['nombre'],
         $_POST['Ap_P'],
         $_POST['Ap_M'],
@@ -21,17 +21,17 @@
     $datos_correctos=true;
 
     if($datos_correctos){
-        //var_dump($paciente);
+        var_dump($paciente);
         $aDAO = new PacienteDAO();
         Singleton::obtenerConexion();
-        $resultado=$aDAO->agregarPaciente($paciente);
+        $resultado=$aDAO->cambiarPaciente($paciente);
         var_dump("<br>");
         var_dump($resultado);
         if($resultado){
-            echo "Ya casi soy ISC INMORTAL!!!!";
+            //echo "Ya casi soy ISC INMORTAL!!!!";
             header('location:../vista/pacientes.php');
         }else{
-            echo "No se puede no hay tortillas";
+            //echo "No se puede no hay tortillas";
         }
     }
 
