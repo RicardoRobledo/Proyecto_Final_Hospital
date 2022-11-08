@@ -47,21 +47,21 @@ class Singleton{
     # ----------------------------------------------------------------
     public static function iniciarSesion($nombre_usuario, $contrasenia){
 
-        $sql = 'SELECT sp_login(?,?)';
+        $sql = 'CALL sp_login(?,?)';
 
         $query = Singleton::$conexion->prepare($sql);
-    	Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    	$query->bindParam(1, $nombre_usuario, PDO::PARAM_STR);
-    	$query->bindParam(2, $contrasenia, PDO::PARAM_STR);
+        Singleton::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $query->bindParam(1, $nombre_usuario, PDO::PARAM_STR);
+        $query->bindParam(2, $contrasenia, PDO::PARAM_STR);
 
-    	$query->execute();
+        $query->execute();
 
         //Si la consulta se realiza con exito
-    	if($query->fetch(PDO::FETCH_ASSOC)['sp_login']==''){
-    		return false;
-    	}else{
-    		return true;
-    	}
+        if($query->fetch(PDO::FETCH_ASSOC)){
+            return true;
+        }else{
+            return false;
+        }
 
     }
 
